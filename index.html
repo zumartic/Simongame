@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <!-- title and meta -->
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=0.8 user-scalable=no">
+	  <meta name="description" content="Simon Game">
+	  <title>Simon&reg;</title>
+
+	  <!-- css -->
+	  <link href="https://fonts.googleapis.com/css?family=Raleway:900" rel="stylesheet">  
+	  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css'>
+	  <link rel="stylesheet" href="css/style.css">
+	</head>
+	
+	<body>
+
+		<div class='container'>
+			<div class="center-area">
+				<div id="holder">
+					<h2><b>Simon&reg;</b></h2>
+					<input type="text" name="FirstName" value="" readonly>
+			
+					<!-- Checbox Four -->
+					<div class="checkButtons">
+						<div class="checkboxFour Start">
+							<input type="checkbox" value="Start" id="Start" name="" />
+							<label for="Start"></label>
+							<h5>START</h5>
+						</div>
+						
+						<div class="checkboxFour Strict">
+							<input type="checkbox" value="Strict" id="Strict" name="" />
+							<label for="Strict"></label>
+							<h5>STRICT</h5>
+						</div>
+					</div>
+		
+					<div class="onoffswitch">
+						<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+						<label class="onoffswitch-label" for="myonoffswitch">
+							<span class="onoffswitch-inner"></span>
+							<span class="onoffswitch-switch"></span>
+						</label>
+					</div>
+					
+				</div>
+			</div>
+			
+			<div class="buttons" id="green"></div>  
+			<div class="buttons" id="red"></div>
+			<div class="buttons" id="yellow"></div>
+			<div class="buttons" id="blue"></div>
+		</div>          
+		<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+		<script src='js/script.js'></script>
+	</body>
+</html>
