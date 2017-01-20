@@ -123,25 +123,27 @@ $(document).ready(function() {
 				error.pause();
 				clearTimeout(errTimer);
 			}
-			
-      // Show sequence
-	  setTimeout(function() {
-		  myVar = setInterval(function() {
-			myTimer();
-			round++;
-			if (round >= value) {
-				clearInterval(myVar);
-				round = 0;
-				// Enable buttons
-				$(".buttons").css({"pointer-events": "auto"});
-				// Button press does takes too long time 3s. 
-				// Start timer after the button flashes
-				setTimeout(function() {
-					errTimer = setTimeout(timerOff, 3000);
-				}, duration);
-			}
-		  }, interval);
-	  }, 800);
+		if (document.getElementById('myonoffswitch').checked===true){
+		  // Show sequence
+		  setTimeout(function() {
+			  myVar = setInterval(function() {
+				myTimer();
+				round++;
+				if (round >= value) {
+					clearInterval(myVar);
+					round = 0;
+					// Enable buttons
+					$(".buttons").css({"pointer-events": "auto"});
+					// Check if pressing a button does takes too long time (3s). 
+					// Start timer after the button flashes
+					setTimeout(function() {
+						errTimer = setTimeout(timerOff, 3000);
+					}, duration);
+				}
+			  }, interval);
+		  }, 800);
+		}
+	  
 	 }
   
   // Turn takes too long time
@@ -168,12 +170,7 @@ $(document).ready(function() {
 					updateInput();
 				}
 					correctAnswers=0;
-					
-					//setTimeout(function() {
-						if (document.getElementById('myonoffswitch').checked===true){
-							showColors();
-						}
-					//}, 800);
+					showColors();
 				}	  		
 		}, 1500);
   }
