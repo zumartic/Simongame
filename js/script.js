@@ -15,7 +15,7 @@ $(document).ready(function() {
   var sound3 = new Audio('sounds/sound3.wav');
   var error = new Audio('sounds/error.wav');
   var soundOn = true;
-  var gameOn = false;
+  
   
    // Set default state
   document.getElementById('myonoffswitch').checked = false;
@@ -30,7 +30,6 @@ $(document).ready(function() {
 	  $("input").val("00");
 	  $(".checkButtons").css({"pointer-events": "auto"});
 	  soundOn = true;
-	  gameOn = false;
 	  
     } else {
 		  // Game shut down 
@@ -40,6 +39,7 @@ $(document).ready(function() {
 		 $(".checkButtons").css({"pointer-events": "none"});
 		 // Turn strict mode off
 		 document.getElementById('Strict').checked = false;
+		  document.getElementById('Start').checked = false;
 		 // Clear sequence
 		 clearInterval(myVar);
 		 // Turn sounds off
@@ -48,6 +48,7 @@ $(document).ready(function() {
 		 sound2.pause();
 		 sound3.pause();
 		 error.pause();
+		 clearTimeout(errTimer);
 		 // Turn lights off
 		 greenOff();
 		 redOff();
@@ -55,40 +56,41 @@ $(document).ready(function() {
 		 blueOff();	
     }
   });
+  
 
   $(".Start").change(function() {
     //  "input[type='checkbox']" Check input( $( this ).val() ) for validity here
 	
 	if (document.getElementById('Start').checked) {
-			//clearInterval(myVar);
-			//clearTimeout(errTimer);
-			if(gameOn===false){
-			gameOn = true;
+			clearInterval(myVar);
+			
+			if (errTimer != null) {
+				error.pause();
+				clearTimeout(errTimer);
+			}
+		
 			round = 0;
 			value = 1;
 			gameArr = [];
 			for (i = 0; i < 20; i++) {
-				gameArr.push(Math.floor(Math.random() * 4));
+				//gameArr.push(Math.floor(Math.random() * 4));
+				gameArr.push(0);
 			}
 			
 			// Show start LED
 			setTimeout(function() {
 				document.getElementById("Start").checked = false;
-			}, 500);
+			}, 1500);
 
 			updateInput();
 			// Disable buttons
 			$(".buttons").css({"pointer-events": "none"});
+			
+			// New sequence
 			showColors();
-		} 
-		
-		/*
-		else {
-			  clearInterval(myVar);
-			  round = 0;
-		}*/
 	}
 	});
+
 
   function setSpeed() {
 	  if (value<5){
@@ -114,24 +116,33 @@ $(document).ready(function() {
   }	
 	
   function showColors() {
+	  // Set game speed based on the round
 	  setSpeed();
-	  // Show sequence
-     myVar = setInterval(function() {
-		// console.log(round);
-        myTimer();
-        round++;
-        if (round >= value) {
-			clearInterval(myVar);
-			round = 0;
-			// Enable buttons
-			$(".buttons").css({"pointer-events": "auto"});
-			setTimeout(function() {
-				console.log("Start");
-				errTimer = setTimeout(timerOff, 3000);
-			}, duration);
-        }
-      }, interval);
 	  
+	  // If error timer is running then pause sound and stop timer
+	  if (errTimer != null) {
+				error.pause();
+				clearTimeout(errTimer);
+			}
+			
+      // Show sequence
+	  setTimeout(function() {
+		  myVar = setInterval(function() {
+			myTimer();
+			round++;
+			if (round >= value) {
+				clearInterval(myVar);
+				round = 0;
+				// Enable buttons
+				$(".buttons").css({"pointer-events": "auto"});
+				// Button press does takes too long time 3s. 
+				// Start timer after the button flashes
+				setTimeout(function() {
+					errTimer = setTimeout(timerOff, 3000);
+				}, duration);
+			}
+		  }, interval);
+	  }, 800);
 	 }
   
   // Turn takes too long time
@@ -140,8 +151,8 @@ $(document).ready(function() {
 	  error.play();
 	  // Disable buttons
 	 $(".buttons").css({"pointer-events": "none"});
-	  setTimeout(function() {
-		if (document.getElementById('myonoffswitch').checked===true){
+	 setTimeout(function() {
+		if (document.getElementById('myonoffswitch').checked===true && document.getElementById("Start").checked === false){
 				error.currentTime = 0;
 				error.pause();
 				
@@ -158,17 +169,18 @@ $(document).ready(function() {
 					updateInput();
 				}
 					correctAnswers=0;
-					setTimeout(function() {
+					
+					//setTimeout(function() {
 						if (document.getElementById('myonoffswitch').checked===true){
 							showColors();
 						}
-					}, 800);
+					//}, 800);
 				}	  		
 		}, 1500);
   }
   
   function myTimer() {
-    // console.log(buttons[Math.floor(Math.random() * 4)]);
+  
     switch (gameArr[round]) {
       case 0:
        greenButton(); 
@@ -195,31 +207,29 @@ $(document).ready(function() {
   // Game engine
   function checkValue(ccolor) {
 	  
-	console.log("colorcode:" +ccolor);
-	console.log(gameArr[correctAnswers]);
 	clearTimeout(errTimer);
 	
 	if(ccolor==gameArr[correctAnswers]){
 		correctAnswers++;
-	    console.log(correctAnswers);
 		if(correctAnswers==value){
 			correctAnswers=0;
 			value++;
 			// Disable buttons
 			$(".buttons").css({"pointer-events": "none"});
 	
-			setTimeout(function() {
+			
 				if(value==21){ // Victory
-				
-					showVictory();
+					setTimeout(function() {
+						showVictory();
+					}, 800);
 				
 				}else{ // Continue game
 					if (document.getElementById('myonoffswitch').checked===true){
 						updateInput();
 						showColors();
 						}
-					}
-				}, 800);
+				}
+				
 		}
 	}else{ // Wrong button pressed
 		// Disable buttons
@@ -228,7 +238,6 @@ $(document).ready(function() {
 		sound1.pause();
 		sound2.pause();
 		sound3.pause();
-		console.log(gameArr[correctAnswers]);
 		error.currentTime = 0;
 		error.play();
 		soundOn = false;
@@ -258,7 +267,7 @@ $(document).ready(function() {
 			  default:
 				console.log("You should not be here, like ever");
 				break;
-		}
+			}
 		
 			soundOn = true;
 			
@@ -273,14 +282,12 @@ $(document).ready(function() {
 				round = 0;
 				value = 1;
 				updateInput();
-			}
+			} // strict mode game array modification ENDS
 				correctAnswers=0;
-				setTimeout(function() {
-					if (document.getElementById('myonoffswitch').checked===true){
-						showColors();
-					}
-				}, 800);
-			}
+				 if(document.getElementById("Start").checked === false){
+					showColors();
+				 }
+			}  // Power on if statement
 		 }, 1500);
 		
 		}
@@ -299,7 +306,6 @@ $(document).ready(function() {
 		   duration = 700;  
 		   myTimer();
 			myVar = setInterval(function() {
-				// console.log(round);
 				myTimer();
 				victory++;
 				if (victory > 3) {

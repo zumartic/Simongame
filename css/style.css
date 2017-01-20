@@ -16,8 +16,8 @@ h5{
 
 .container{
 	/*width:500px;
-	height:500px;
-	
+	height:500px;*/
+	/*
 	border-radius: 50%;
 	box-shadow: 10px 10px 5px grey; */
 	margin: auto;
@@ -280,16 +280,14 @@ input[type=checkbox] {
 }
 
 #footer {
-   position:absolute; 
-   width: 500px;
-   /*margin: auto;
-   margin-top: 20px;*/
-   bottom:0px; 
+   position: absolute;
+   top: 500px;
+   /*width: 500px;
+   margin: auto;*/
+   margin-top: 20px;
+   margin-left: 125px;
    font-size: 80%;
    height:110px; 
-   left: 125px;
-   /*left:0px; 
-   right:0px; */
    overflow:hidden;
    text-align: left;  
    
