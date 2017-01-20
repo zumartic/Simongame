@@ -73,8 +73,7 @@ $(document).ready(function() {
 			value = 1;
 			gameArr = [];
 			for (i = 0; i < 20; i++) {
-				//gameArr.push(Math.floor(Math.random() * 4));
-				gameArr.push(0);
+				gameArr.push(Math.floor(Math.random() * 4));
 			}
 			
 			// Show start LED
