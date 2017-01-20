@@ -226,6 +226,10 @@ $(document).ready(function() {
 						}
 				}
 				
+		}else{
+			setTimeout(function() {
+						errTimer = setTimeout(timerOff, 3000);
+					}, duration);
 		}
 	}else{ // Wrong button pressed
 		// Disable buttons
