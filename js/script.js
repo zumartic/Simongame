@@ -39,7 +39,7 @@ $(document).ready(function() {
 		 $(".checkButtons").css({"pointer-events": "none"});
 		 // Turn strict mode off
 		 document.getElementById('Strict').checked = false;
-		  document.getElementById('Start').checked = false;
+		 document.getElementById('Start').checked = false;
 		 // Clear sequence
 		 clearInterval(myVar);
 		 // Turn sounds off
